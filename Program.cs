@@ -1,22 +1,99 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
-namespace MiniWarehouse
+namespace ConsoleApp2
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            List<string> productNames = new List<string>() { "Laptop", "PC", "Mobile" };
+            Console.WriteLine("\n==========================================");
+            Console.WriteLine("Please choose an option:");
+            Console.WriteLine("1. Show all products");
+            Console.WriteLine("2. Add new product");
+            Console.WriteLine("3. Search product");
+            Console.WriteLine("4. Calculate total warehouse value");
+            Console.WriteLine("5. Exit");
+            Console.WriteLine("==========================================");
+            Console.Write("Enter your choice (1-5): ");
+          
+            int userInput = int.Parse(Console.ReadLine());
+            List<string> ProductNames = new List<string>() { "laptop", "pc", "mobile" };
             List<int> priceProducts = new List<int>() { 500, 200, 150 };
-
-            int userInput = 0;
 
             while (userInput != 5)
             {
+                switch (userInput)
+                {
+                    case 1:
+
+                        if (ProductNames.Count <= 0)
+                        {
+                            Console.WriteLine("warehouse is empty right now");
+                        }
+                        else
+                        {
+                             
+
+                            for (int i = 0; i < ProductNames.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1}.{ProductNames[i]} - {priceProducts[i]}$");
+                            }
+                        }
+                        break;
+
+                    case 2:
+                        Console.WriteLine("enter name of the product");
+                        string userInputProductName = Console.ReadLine().Trim();
+                        Console.WriteLine("enter price of your product");
+
+                        int userInputProductPrice = int.Parse(Console.ReadLine());
+                        if (userInputProductPrice <= 0)
+                        {
+                            Console.WriteLine("price should great then zero ");
+                        }
+                        else
+                        {
+                            ProductNames.Add(userInputProductName);
+                            priceProducts.Add(userInputProductPrice);
+                            Console.WriteLine("product and price succesfily add");
+                        }
+                        break;
+
+                    case 3:
+                        Console.WriteLine("please enter your item to i search that for you : ");
+                        string search = Console.ReadLine().Trim().ToLower();
+                     
+                        if (ProductNames.Contains(search))
+                        {
+                            int index = ProductNames.IndexOf(search);
+                            Console.WriteLine($"name product: {ProductNames[index]} the price is {priceProducts[index]}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("not found");
+                        }
+                        break;
+
+                    case 4:
+                        int holePrice(List<int> Price)
+                        {
+                            return Price.Sum();
+                        }
+
+                        Console.WriteLine(holePrice(priceProducts)+"$");
+                        break;
+
+                    default:
+                        Console.WriteLine("please enter a nuber betwinn 1 to 5");
+                        break;
+                }
+
                 Console.WriteLine("\n==========================================");
                 Console.WriteLine("Please choose an option:");
                 Console.WriteLine("1. Show all products");
@@ -26,87 +103,11 @@ namespace MiniWarehouse
                 Console.WriteLine("5. Exit");
                 Console.WriteLine("==========================================");
                 Console.Write("Enter your choice (1-5): ");
-
-                if (!int.TryParse(Console.ReadLine(), out userInput))
-                {
-                    Console.WriteLine("Error: Please enter a valid number between 1 and 5.");
-                    continue;
-                }
-
-                switch (userInput)
-                {
-                    case 1:
-                        if (productNames.Count == 0)
-                        {
-                            Console.WriteLine("Warehouse is currently empty.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\n--- Warehouse Products ---");
-                            for (int i = 0; i < productNames.Count; i++)
-                            {
-                                Console.WriteLine($"{i + 1}. {productNames[i]} - ${priceProducts[i]}");
-                            }
-                        }
-                        break;
-
-                    case 2:
-                        Console.Write("Enter product name: ");
-                        string userInputProductName = Console.ReadLine().Trim();
-
-                        Console.Write("Enter product price ($): ");
-                        if (int.TryParse(Console.ReadLine(), out int userInputProductPrice) && userInputProductPrice > 0)
-                        {
-                            productNames.Add(userInputProductName);
-                            priceProducts.Add(userInputProductPrice);
-                            Console.WriteLine("Product added successfully!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error: Price must be a positive number greater than 0.");
-                        }
-                        break;
-
-                    case 3:
-                        Console.Write("Enter search keyword: ");
-                        string search = Console.ReadLine().Trim().ToLower();
-
-                        bool found = false;
-                        for (int i = 0; i < productNames.Count; i++)
-                        {
-                            if (productNames[i].ToLower().Contains(search))
-                            {
-                                Console.WriteLine($"Found: {productNames[i]} | Price: ${priceProducts[i]}");
-                                found = true;
-                            }
-                        }
-
-                        if (!found)
-                        {
-                            Console.WriteLine("No products found matching your search.");
-                        }
-                        break;
-
-                    case 4:
-                        int CalculateTotalWarehouseValue(List<int> prices)
-                        {
-                            return prices.Sum();
-                        }
-
-                        int totalValue = CalculateTotalWarehouseValue(priceProducts);
-                        Console.WriteLine($"Total warehouse value: ${totalValue}");
-                        break;
-
-                    case 5:
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid option! Please enter a number between 1 and 5.");
-                        break;
-                }
+                userInput = int.Parse(Console.ReadLine());
             }
 
-            Console.WriteLine("\nThank you for using Mini Warehouse. Goodbye!");
+           
+            Console.WriteLine("goodbye");
         }
     }
 }
